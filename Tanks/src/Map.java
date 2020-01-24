@@ -4,15 +4,16 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Map {
-	int mRows = 512;
-	int mColumns = 512;
-	char array[][] = new char[mRows][mColumns];
+	int mRows = 128;
+	int mColumns = 128;
+	char array[][	] = new char[mRows][mColumns];
 	
-	void loadMap(String filename) throws IOException {
+	
+	void loadMap(String filename) {
 		
-		BufferedReader br = new BufferedReader(new FileReader(filename));
+		
 		try {
-		    
+			BufferedReader br = new BufferedReader(new FileReader(filename));
 		    String line = br.readLine();
 		    int rows = 0;
 		    
@@ -22,10 +23,12 @@ public class Map {
 				}
 		    	rows++;
 		        line = br.readLine();
+		        
 		    }
-		} finally {
 		    br.close();
-		}	
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	/*
 	for (int i=0; i < row; i++) {
