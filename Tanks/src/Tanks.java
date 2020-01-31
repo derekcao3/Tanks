@@ -5,8 +5,8 @@ import javax.swing.JFrame;
 
 public class Tanks {
 	JFrame frame;
-	static final int width = 512;
-	static final int height = 512;
+	static final int width = 1700;
+	static final int height = 700;
 	GamePanel gamePanel;
 public static void main(String[] args)  {
 	Tanks tank = new Tanks();
@@ -23,7 +23,9 @@ void setup() {
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.setSize(width, height);
 	frame.getContentPane().setPreferredSize(new Dimension(width, height));
-	frame.pack();
 	frame.setVisible(true);
+	gamePanel.startGame();
+	frame.addKeyListener(gamePanel);
+	frame.pack();
 }
 }
