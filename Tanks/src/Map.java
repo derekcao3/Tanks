@@ -30,6 +30,13 @@ public class Map {
 			e.printStackTrace();
 		}
 	}
+	
+	public boolean checkCollision(int x, int y) {
+		if(array[y][x]=='x') {
+			return true;
+		}
+		return false;
+	}
 	/*
 	for (int i=0; i < row; i++) {
 	    for (int j=0; j < column; j++) {

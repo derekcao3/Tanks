@@ -11,7 +11,7 @@ import javax.swing.Timer;
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Timer timer;
 	Map map = new Map();
-	Tank tank = new Tank(100, 100, 25, 25);
+	Tank tank = new Tank(200, 250, 25, 25);
 
 	GamePanel() {
 		timer = new Timer(1000 / 60, this);
@@ -53,6 +53,27 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	void updateGameState() {
 		tank.update();
+		checkCollisions();
+	}
+	
+	void checkCollisions() {
+	int x1 = tank.x;
+	int x2 = tank.x+tank.width-1;
+	int y1= tank.y;
+	int y2 = tank.y+tank.height-1;
+	
+		if(tank.left==true && !map.checkCollision((x1-tank.speed)/25,(y1)/25) && !map.checkCollision((x1-tank.speed)/25,(y2)/25)) {
+			tank.left();
+		}
+		if(tank.right==true && !map.checkCollision((x2+tank.speed)/25,(y1)/25) &&  !map.checkCollision((x2+tank.speed)/25,(y2)/25)) {
+			tank.right();
+		}
+		if(tank.up==true && !map.checkCollision((x1)/25,(y1-tank.speed)/25) &&  !map.checkCollision((x2)/25,(y1-tank.speed)/25)) {
+			tank.up();
+		}
+		if(tank.down==true && !map.checkCollision((x1)/25,(y2+tank.speed)/25) && !map.checkCollision((x2)/25,(y2+tank.speed)/25) ) {
+			tank.down();
+		}
 	}
 
 	@Override
