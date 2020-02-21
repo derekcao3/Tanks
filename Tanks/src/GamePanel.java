@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,23 +13,51 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Timer timer;
 	static Map map = new Map();
 	Tank tank1 = new Tank(200, 250, 25, 25);
-	Tank tank2 = new Tank(500, 250, 25, 25);
+	Tank tank2 = new Tank(1000, 250, 25, 25);
+	Font titleFont;
+	Font titleFont2;
+	final int MENU_STATE = 0;
 
+	final int GAME_STATE = 1;
+	
+	int currentState = MENU_STATE;
 	GamePanel() {
 		timer = new Timer(1000 / 60, this);
 		map.loadMap("src/maze.txt");
+		titleFont = new Font("Arial", Font.PLAIN, 48);
+		titleFont2 = new Font("Arial", Font.PLAIN, 20);
 	}
 
 	ObjectManager object = new ObjectManager(tank1, tank2);
 
 	@Override
 	public void paintComponent(Graphics g) {
-		drawGameState(g);
+		if (currentState == MENU_STATE) {
+
+			drawMenuState(g);
+
+		} else if (currentState == GAME_STATE) {
+
+			drawGameState(g);
+	}
 	}
 
 	void DrawGame() {
 
 	}
+void drawMenuState(Graphics g) {
+	g.setColor(Color.BLUE);
+	g.fillRect(0, 0, Tanks.width, Tanks.height);
+	g.setFont(titleFont);
+	g.setColor(Color.WHITE);
+	g.drawString("Tanks", 20, 100);
+	g.setFont(titleFont2);
+	g.setColor(Color.WHITE);
+	g.drawString("Press ENTER to start", 135, 328);
+	g.setFont(titleFont2);
+	g.setColor(Color.WHITE);
+	g.drawString("Press SPACE for instructions", 100, 500);
+}
 
 	void drawGameState(Graphics g) {
 
@@ -47,6 +76,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		object.draw(g);
 	}
 
+	
 	void startGame() {
 		timer.start();
 	}
@@ -58,33 +88,42 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void checkCollisions() {
-		int x1 = tank1.x;
-		int x2 = tank1.x + tank1.width - 1;
-		int y1 = tank1.y;
-		int y2 = tank1.y + tank1.height - 1;
+		checkCollisions(tank1);
+		checkCollisions(tank2);
+	}
+	
+	void checkCollisions(Tank tank) {
+		int x1 = tank.x;
+		int x2 = tank.x + tank.width - 1;
+		int y1 = tank.y;
+		int y2 = tank.y + tank.height - 1;
 
-		if (tank1.left == true && !map.checkCollision((x1 - tank1.speed) / 25, (y1) / 25)
-				&& !map.checkCollision((x1 - tank1.speed) / 25, (y2) / 25)) {
-			tank1.left();
+		
+		if (tank.left == true && !map.checkCollision((x1 - tank.speed) / 25, (y1) / 25)
+				&& !map.checkCollision((x1 - tank.speed) / 25, (y2) / 25)) {
+			tank.left();
 		}
-		if (tank1.right == true && !map.checkCollision((x2 + tank1.speed) / 25, (y1) / 25)
-				&& !map.checkCollision((x2 + tank1.speed) / 25, (y2) / 25)) {
-			tank1.right();
+		if (tank.right == true && !map.checkCollision((x2 + tank.speed) / 25, (y1) / 25)
+				&& !map.checkCollision((x2 + tank.speed) / 25, (y2) / 25)) {
+			tank.right();
 		}
-		if (tank1.up == true && !map.checkCollision((x1) / 25, (y1 - tank1.speed) / 25)
-				&& !map.checkCollision((x2) / 25, (y1 - tank1.speed) / 25)) {
-			tank1.up();
+		if (tank.up == true && !map.checkCollision((x1) / 25, (y1 - tank.speed) / 25)
+				&& !map.checkCollision((x2) / 25, (y1 - tank.speed) / 25)) {
+			tank.up();
 		}
-		if (tank1.down == true && !map.checkCollision((x1) / 25, (y2 + tank1.speed) / 25)
-				&& !map.checkCollision((x2) / 25, (y2 + tank1.speed) / 25)) {
-			tank1.down();
+		if (tank.down == true && !map.checkCollision((x1) / 25, (y2 + tank.speed) / 25)
+				&& !map.checkCollision((x2) / 25, (y2 + tank.speed) / 25)) {
+			tank.down();
 		}
+		
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 
 		// TODO Auto-generated method stub
+	
+
 		if (KeyEvent.VK_LEFT == e.getKeyCode()) {
 			tank1.left = true;
 			System.out.println("no");
@@ -94,6 +133,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			tank1.down = true;
 		} else if (KeyEvent.VK_UP == e.getKeyCode()) {
 			tank1.up = true;
+		}
+		
+		if (KeyEvent.VK_A == e.getKeyCode()) {
+			tank2.left = true;
+			System.out.println("no");
+		} else if (KeyEvent.VK_D == e.getKeyCode()) {
+			tank2.right = true;
+		} else if (KeyEvent.VK_S == e.getKeyCode()) {
+			tank2.down = true;
+		} else if (KeyEvent.VK_W == e.getKeyCode()) {
+			tank2.up = true;
 		}
 
 	}
@@ -112,7 +162,21 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			tank1.up = false;
 		}
 		if (KeyEvent.VK_SPACE == e.getKeyCode()) {
-			object.addProjectile(new Projectile(tank1.x, tank1.y, 10, 10, tank1.lastFaced));
+			object.addProjectile(new Projectile(tank1.x, tank1.y, 10, 10, tank1.lastFaced), 1);
+			System.out.println("e");
+		}
+		if (KeyEvent.VK_A == e.getKeyCode()) {
+			tank2.left = false;
+			System.out.println("no");
+		} else if (KeyEvent.VK_D == e.getKeyCode()) {
+			tank2.right = false;
+		} else if (KeyEvent.VK_S == e.getKeyCode()) {
+			tank2.down = false;
+		} else if (KeyEvent.VK_W == e.getKeyCode()) {
+			tank2.up = false;
+		}
+		if (KeyEvent.VK_Q == e.getKeyCode()) {
+			object.addProjectile(new Projectile(tank2.x, tank2.y, 10, 10, tank2.lastFaced), 2);
 			System.out.println("e");
 		}
 
@@ -127,7 +191,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		updateGameState();
+		if (currentState == MENU_STATE) {
+
+			
+
+		} else if (currentState == GAME_STATE) {
+
+			updateGameState();
+
+		} 
 		repaint();
 	}
 }

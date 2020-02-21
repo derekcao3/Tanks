@@ -36,7 +36,7 @@ boolean up = false;
 	void draw(Graphics g) {
 		g.setColor(Color.red);
 	
-		 g.fillRect(x+20, y, width, height);
+		 g.fillRect(x+10, y+10, width, height);
 		
 		}
 
@@ -55,8 +55,8 @@ boolean up = false;
 
 	void down() {
 	
-			y = y + speed;
-		
+		y = y + speed;
+
 	}
 
 	void up() {
