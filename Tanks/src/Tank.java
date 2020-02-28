@@ -45,8 +45,14 @@ void up() {
 }
 
 
-void draw(Graphics g) {
+void draw1(Graphics g) {
 	  g.setColor(Color.GREEN);
+	  g.fillRect(x, y, width, height);
+
+}
+
+void draw2(Graphics g) {
+	  g.setColor(Color.CYAN);
 	  g.fillRect(x, y, width, height);
 
 }

@@ -33,8 +33,14 @@ boolean up = false;
 		CheckCollision();
 
 	}
-	void draw(Graphics g) {
+	void draw1(Graphics g) {
 		g.setColor(Color.red);
+	
+		 g.fillRect(x+10, y+10, width, height);
+		
+		}
+	void draw2(Graphics g) {
+		g.setColor(Color.magenta);
 	
 		 g.fillRect(x+10, y+10, width, height);
 		

@@ -12,13 +12,18 @@ import javax.swing.Timer;
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Timer timer;
 	static Map map = new Map();
-	Tank tank1 = new Tank(200, 250, 25, 25);
-	Tank tank2 = new Tank(1000, 250, 25, 25);
+	
+	
+	Tank tank1 = new Tank(ObjectManager.tank1x, ObjectManager.tank1y, 25, 25);
+	Tank tank2 = new Tank(ObjectManager.tank2x, ObjectManager.tank2y, 25, 25);
 	Font titleFont;
 	Font titleFont2;
+	Font scoreFont;
 	final int MENU_STATE = 0;
 
 	final int GAME_STATE = 1;
+	
+	final int END_STATE = 2;
 	
 	int currentState = MENU_STATE;
 	GamePanel() {
@@ -26,6 +31,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		map.loadMap("src/maze.txt");
 		titleFont = new Font("Arial", Font.PLAIN, 48);
 		titleFont2 = new Font("Arial", Font.PLAIN, 20);
+		scoreFont = new Font("Arial", Font.PLAIN, 80);
 	}
 
 	ObjectManager object = new ObjectManager(tank1, tank2);
@@ -40,6 +46,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 			drawGameState(g);
 	}
+		else if(currentState == END_STATE) {
+			
+			drawEndState(g);
+		}
 	}
 
 	void DrawGame() {
@@ -73,9 +83,26 @@ void drawMenuState(Graphics g) {
 				}
 			}
 		}
+		g.setFont(scoreFont);
+		g.setColor(Color.GREEN);
+		g.drawString(object.score1 + "", 100, 650);
+		g.setFont(scoreFont);
+		g.setColor(Color.CYAN);
+		g.drawString(object.score2 + "", 1300, 650);
 		object.draw(g);
 	}
 
+	void drawEndState(Graphics g) {
+		g.setColor(Color.RED);
+		g.fillRect(0, 0, Tanks.width, Tanks.height);
+		g.fillRect(0, 0, Tanks.width, Tanks.height);
+		g.setFont(titleFont);
+		g.setColor(Color.WHITE);
+		g.drawString("Final score: " + object.score1 + "-" + object.score2, 95, 100);
+		g.setFont(titleFont2);
+		g.setColor(Color.WHITE);
+		g.drawString("Press ENTER to resart", 125, 500);
+	}
 	
 	void startGame() {
 		timer.start();
@@ -85,6 +112,9 @@ void drawMenuState(Graphics g) {
 
 		object.update();
 		checkCollisions();
+		if(object.score1==5 || object.score2==5) {
+			currentState=END_STATE;
+		}
 	}
 
 	void checkCollisions() {
@@ -179,6 +209,14 @@ void drawMenuState(Graphics g) {
 			object.addProjectile(new Projectile(tank2.x, tank2.y, 10, 10, tank2.lastFaced), 2);
 			System.out.println("e");
 		}
+		if (KeyEvent.VK_ENTER == e.getKeyCode()) {
+			object.score1=0;
+			object.score2=0;
+			currentState = GAME_STATE;
+		}
+		if (KeyEvent.VK_ESCAPE == e.getKeyCode()) {
+			currentState = MENU_STATE;
+		}
 
 	}
 
@@ -191,11 +229,7 @@ void drawMenuState(Graphics g) {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if (currentState == MENU_STATE) {
-
-			
-
-		} else if (currentState == GAME_STATE) {
+		if (currentState == GAME_STATE) {
 
 			updateGameState();
 
