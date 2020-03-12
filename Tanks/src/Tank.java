@@ -46,14 +46,40 @@ void up() {
 
 
 void draw1(Graphics g) {
-	  g.setColor(Color.GREEN);
-	  g.fillRect(x, y, width, height);
+	
+	  g.drawImage(GamePanel.tank1ImgR, x, y, width, height, null);
+
+	  if(lastFaced==2) {
+		  g.drawImage(GamePanel.tank1ImgL, x, y, width, height, null);
+}
+	  else if(lastFaced==0) {
+		  g.drawImage(GamePanel.tank1ImgR, x, y, width, height, null);
+}
+	  else if(lastFaced==3) {
+		  g.drawImage(GamePanel.tank1ImgU, x, y, width, height, null);
+}
+	  else if(lastFaced==1) {
+		  g.drawImage(GamePanel.tank1ImgD, x, y, width, height, null);
+}
 
 }
 
 void draw2(Graphics g) {
-	  g.setColor(Color.CYAN);
-	  g.fillRect(x, y, width, height);
+	  
+	  g.drawImage(GamePanel.tank2ImgL, x, y, width, height, null);
+	  
+	  if(lastFaced==2) {
+		  g.drawImage(GamePanel.tank2ImgL, x, y, width, height, null);
+}
+	  else if(lastFaced==0) {
+		  g.drawImage(GamePanel.tank2ImgR, x, y, width, height, null);
+}
+	  else if(lastFaced==3) {
+		  g.drawImage(GamePanel.tank2ImgU, x, y, width, height, null);
+}
+	  else if(lastFaced==1) {
+		  g.drawImage(GamePanel.tank2ImgD, x, y, width, height, null);
+}
 
 }
 }

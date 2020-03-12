@@ -5,7 +5,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -19,11 +23,24 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font titleFont;
 	Font titleFont2;
 	Font scoreFont;
+	public static BufferedImage tank1ImgR;
+	public static BufferedImage tank1ImgL;
+	public static BufferedImage tank1ImgU;
+	public static BufferedImage tank1ImgD;
+
+	public static BufferedImage tank2ImgR;
+	public static BufferedImage tank2ImgL;
+	public static BufferedImage tank2ImgU;
+	public static BufferedImage tank2ImgD;
+
+
 	final int MENU_STATE = 0;
 
 	final int GAME_STATE = 1;
 	
 	final int END_STATE = 2;
+	
+	
 	
 	int currentState = MENU_STATE;
 	GamePanel() {
@@ -32,6 +49,27 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		titleFont = new Font("Arial", Font.PLAIN, 48);
 		titleFont2 = new Font("Arial", Font.PLAIN, 20);
 		scoreFont = new Font("Arial", Font.PLAIN, 80);
+		try {
+
+			tank1ImgR = ImageIO.read(this.getClass().getResourceAsStream("/tank1r.png"));
+			tank1ImgL = ImageIO.read(this.getClass().getResourceAsStream("/tank1l.png"));
+			tank1ImgU = ImageIO.read(this.getClass().getResourceAsStream("/tank1u.png"));
+			tank1ImgD = ImageIO.read(this.getClass().getResourceAsStream("/tank1d.png"));
+			
+			tank2ImgR = ImageIO.read(this.getClass().getResourceAsStream("/tank2r.png"));
+			tank2ImgL = ImageIO.read(this.getClass().getResourceAsStream("/tank2l.png"));
+			tank2ImgU = ImageIO.read(this.getClass().getResourceAsStream("/tank2u.png"));
+			tank2ImgD = ImageIO.read(this.getClass().getResourceAsStream("/tank2d.png"));
+			
+
+		} catch (IOException e) {
+
+			// TODO Auto-generated catch block
+
+			e.printStackTrace();
+
+		}
+
 	}
 
 	ObjectManager object = new ObjectManager(tank1, tank2);
@@ -41,7 +79,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (currentState == MENU_STATE) {
 
 			drawMenuState(g);
-
+			
 		} else if (currentState == GAME_STATE) {
 
 			drawGameState(g);
@@ -66,7 +104,7 @@ void drawMenuState(Graphics g) {
 	g.drawString("Press ENTER to start", 135, 328);
 	g.setFont(titleFont2);
 	g.setColor(Color.WHITE);
-	g.drawString("Press SPACE for instructions", 100, 500);
+	g.drawString("Press i for instructions", 100, 500);
 }
 
 	void drawGameState(Graphics g) {
@@ -217,7 +255,10 @@ void drawMenuState(Graphics g) {
 		if (KeyEvent.VK_ESCAPE == e.getKeyCode()) {
 			currentState = MENU_STATE;
 		}
-
+		if (KeyEvent.VK_I == e.getKeyCode() && currentState == MENU_STATE) {
+			JOptionPane.showMessageDialog(null, "Tank 1: UP DOWN LEFT RIGHT to move Space To fire");
+			JOptionPane.showMessageDialog(null, "Tank 2: W A S D to move Q to fire");
+		}
 	}
 
 	@Override
