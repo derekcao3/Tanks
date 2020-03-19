@@ -6,7 +6,7 @@ public class ObjectManager {
 	Tank tank2;
 	static int tank1x = 200;
 	static int tank1y = 250;
-	static int tank2x = 1000;
+	static int tank2x = 1350;
 	static int tank2y = 250;
 	int score1 =0;
 	int score2 =0;

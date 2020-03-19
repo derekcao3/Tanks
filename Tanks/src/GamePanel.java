@@ -45,8 +45,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int currentState = MENU_STATE;
 	GamePanel() {
 		timer = new Timer(1000 / 60, this);
-		map.loadMap("src/maze.txt");
-		titleFont = new Font("Arial", Font.PLAIN, 48);
+		map.loadMap("Tanks/src/maze.txt");
+		titleFont = new Font("Arial", Font.PLAIN, 100);
 		titleFont2 = new Font("Arial", Font.PLAIN, 20);
 		scoreFont = new Font("Arial", Font.PLAIN, 80);
 		try {
@@ -98,13 +98,13 @@ void drawMenuState(Graphics g) {
 	g.fillRect(0, 0, Tanks.width, Tanks.height);
 	g.setFont(titleFont);
 	g.setColor(Color.WHITE);
-	g.drawString("Tanks", 20, 100);
+	g.drawString("Tanks", 750, 150);
 	g.setFont(titleFont2);
 	g.setColor(Color.WHITE);
-	g.drawString("Press ENTER to start", 135, 328);
+	g.drawString("Press ENTER to start", 800, 328);
 	g.setFont(titleFont2);
 	g.setColor(Color.WHITE);
-	g.drawString("Press i for instructions", 100, 500);
+	g.drawString("Press i for instructions", 800, 500);
 }
 
 	void drawGameState(Graphics g) {
@@ -136,10 +136,10 @@ void drawMenuState(Graphics g) {
 		g.fillRect(0, 0, Tanks.width, Tanks.height);
 		g.setFont(titleFont);
 		g.setColor(Color.WHITE);
-		g.drawString("Final score: " + object.score1 + "-" + object.score2, 95, 100);
+		g.drawString("Final score: " + object.score1 + "-" + object.score2, 600, 100);
 		g.setFont(titleFont2);
 		g.setColor(Color.WHITE);
-		g.drawString("Press ENTER to resart", 125, 500);
+		g.drawString("Press ENTER to resart", 800, 500);
 	}
 	
 	void startGame() {
